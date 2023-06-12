@@ -3,11 +3,10 @@
 namespace devgroup\arangodb;
 
 use yii\base\Component;
-use yii\db\MigrationInterface;
 use yii\di\Instance;
 use yii\helpers\ArrayHelper;
 
-abstract class Migration extends Component implements MigrationInterface
+abstract class Migration extends Component
 {
     /**
      * @var Connection|string the DB connection object or the application component ID of the DB connection

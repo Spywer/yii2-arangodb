@@ -38,10 +38,10 @@ return [
         'arangodb' => [
             'class' => '\devgroup\arangodb\Connection',
             'connectionOptions' => [
-                triagens\ArangoDb\ConnectionOptions::OPTION_DATABASE => "mydatabase",
-                triagens\ArangoDb\ConnectionOptions::OPTION_ENDPOINT => 'tcp://127.0.0.1:8529',
-                //triagens\ArangoDb\ConnectionOptions::OPTION_AUTH_USER   => '',
-                //triagens\ArangoDb\ConnectionOptions::OPTION_AUTH_PASSWD => '',
+                ArangoDBClient\ConnectionOptions::OPTION_DATABASE => "mydatabase",
+                ArangoDBClient\ConnectionOptions::OPTION_ENDPOINT => 'tcp://127.0.0.1:8529',
+                //ArangoDBClient\ConnectionOptions::OPTION_AUTH_USER   => '',
+                //ArangoDBClient\ConnectionOptions::OPTION_AUTH_PASSWD => '',
             ],
         ],
     ],

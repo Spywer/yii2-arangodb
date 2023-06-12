@@ -3,13 +3,12 @@
 namespace devgroup\arangodb;
 
 use Yii;
-use yii\db\ActiveQueryInterface;
 use yii\db\ActiveQueryTrait;
 use yii\db\ActiveRelationTrait;
 
-use triagens\ArangoDb\Document;
+use ArangoDBClient\Document;
 
-class ActiveQuery extends Query implements ActiveQueryInterface
+class ActiveQuery extends Query
 {
     use ActiveQueryTrait;
     use ActiveRelationTrait;

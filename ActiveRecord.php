@@ -11,7 +11,7 @@ use yii\helpers\ArrayHelper;
 use yii\helpers\Inflector;
 use yii\helpers\StringHelper;
 
-use triagens\ArangoDb\Document;
+use ArangoDBClient\Document;
 
 abstract class ActiveRecord extends BaseActiveRecord
 {

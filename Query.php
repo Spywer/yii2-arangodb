@@ -3,16 +3,14 @@
 namespace devgroup\arangodb;
 
 use Yii;
-use triagens\ArangoDb\Document;
-use triagens\ArangoDb\Statement;
-use yii\base\Component;
 use yii\base\InvalidParamException;
 use yii\base\NotSupportedException;
-use yii\db\QueryInterface;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
+use ArangoDBClient\Document;
+use ArangoDBClient\Statement;
 
-class Query extends Component implements QueryInterface
+class Query extends \yii\db\Query
 {
     const PARAM_PREFIX = 'qp';
 
@@ -147,7 +145,7 @@ class Query extends Component implements QueryInterface
      * @param $fields
      * @return $this
      */
-    public function select($fields)
+    public function select($fields, $option = null)
     {
         $this->select = $fields;
 
@@ -847,7 +845,7 @@ class Query extends Component implements QueryInterface
      * @param null $db
      * @return int
      * @throws \Exception
-     * @throws \triagens\ArangoDb\ClientException
+     * @throws \ArangoDBClient\ClientException
      */
     public function count($q = '*', $db = null)
     {
