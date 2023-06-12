@@ -104,7 +104,7 @@ class Query extends \yii\db\Query
             [
                 'query' => $aql,
                 'bindVars' => $params,
-                '_flat' => true
+                '_flat' => $this->select ? true : false
             ]
         );
 
@@ -837,7 +837,15 @@ class Query extends \yii\db\Query
                 }
             }
         } else {
-            $result = $rows;
+            if($this->select) {
+                foreach ($rows as $key_line => $row) {
+                    foreach ($row as $key_item => $data) {
+                        $result[$key_line][$this->select[$key_item]] = $data;
+                    }
+                }
+            } else {
+                $result = $rows;
+            }
         }
         return $result;
     }
