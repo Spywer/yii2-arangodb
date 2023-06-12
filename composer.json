@@ -1,5 +1,5 @@
 {
-    "name": "devgroup/yii2-arangodb",
+    "name": "spywer/yii2-arangodb",
     "description": "Yii2 arangodb components",
     "type": "yii2-extension",
     "keywords": ["yii2","arangodb"],
@@ -16,9 +16,12 @@
         {
             "name": "Pavel Fedotov",
             "email": "fps.06@mail.ru"
+        },
+        {
+            "name": "Spywer"
         }
     ],
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "require": {
         "yiisoft/yii2": "*",
         "triagens/arangodb": "*"
