@@ -104,6 +104,7 @@ class Query extends \yii\db\Query
             [
                 'query' => $aql,
                 'bindVars' => $params,
+                '_flat' => true
             ]
         );
 
@@ -124,6 +125,7 @@ class Query extends \yii\db\Query
         $options = [
             'query' => $aql,
             'bindVars' => $bindValues,
+            //'_flat' => true
         ];
 
         $options = ArrayHelper::merge($params, $options);
