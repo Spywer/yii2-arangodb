@@ -4,14 +4,14 @@ namespace devgroup\arangodb;
 
 use Yii;
 use yii\base\InvalidConfigException;
+use yii\db\BaseActiveRecord;
 use yii\db\StaleObjectException;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Inflector;
 use yii\helpers\StringHelper;
-
 use ArangoDBClient\Document;
 
-class ActiveRecord extends \yii\db\ActiveRecord
+class ActiveRecord extends BaseActiveRecord
 {
     public function mergeAttribute($name, $value)
     {

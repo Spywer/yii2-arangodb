@@ -3,6 +3,7 @@
 namespace devgroup\arangodb;
 
 use Yii;
+use yii\base\Component;
 use ArangoDBClient\CollectionHandler;
 use ArangoDBClient\ConnectionOptions;
 use ArangoDBClient\Document;
@@ -10,7 +11,7 @@ use ArangoDBClient\DocumentHandler;
 use ArangoDBClient\Statement;
 use ArangoDBClient\UpdatePolicy;
 
-class Connection extends \yii\db\Connection
+class Connection extends Component
 {
     private $connection = null;
 
