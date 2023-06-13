@@ -55,13 +55,17 @@ class ActiveQuery extends Query
             array_walk(
                 $rows,
                 function (&$doc) {
+
+                    if(isset($doc['_id'])) { unset($doc['_id']); }
+                    if(isset($doc['_rev'])) { unset($doc['_rev']); }
+
                     if ($doc instanceof Document) {
                         $doc = $doc->getAll();
                     }
                 }
             );
             if ($this->indexBy === null) {
-                if($this->select) {
+                if($this->select && is_array($this->select)) {
                     $result = [];
                     foreach ($rows as $key_line => $row) {
                         foreach ($row as $key_item => $data) {
@@ -84,7 +88,14 @@ class ActiveQuery extends Query
             /* @var $class ActiveRecord */
             $class = $this->modelClass;
             if ($this->indexBy === null) {
-                foreach ($rows as $row) {
+                foreach ($rows as $line) {
+
+                    if($this->select && is_array($this->select)) {
+                        $row = []; foreach ($line as $key_item => $data) { $row[$this->select[$key_item]] = $data; }
+                    } else {
+                        $row = $line;
+                    }
+
                     $model = $class::instantiate($row);
                     $class::populateRecord($model, $row);
                     $model->setIsNewRecord(false);

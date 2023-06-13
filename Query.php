@@ -837,7 +837,7 @@ class Query extends \yii\db\Query
                 }
             }
         } else {
-            if($this->select) {
+            if($this->select && is_array($this->select)) {
                 foreach ($rows as $key_line => $row) {
                     foreach ($row as $key_item => $data) {
                         $result[$key_line][$this->select[$key_item]] = $data;
