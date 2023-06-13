@@ -844,7 +844,7 @@ class Query extends \yii\db\Query
                     }
                 }
             } else {
-                $result = $rows;
+                return $rows;
             }
         }
         return $result;

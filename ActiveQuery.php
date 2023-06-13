@@ -61,6 +61,15 @@ class ActiveQuery extends Query
                 }
             );
             if ($this->indexBy === null) {
+                if($this->select) {
+                    $result = [];
+                    foreach ($rows as $key_line => $row) {
+                        foreach ($row as $key_item => $data) {
+                            $result[$key_line][$this->select[$key_item]] = $data;
+                        }
+                    }
+                    return $result;
+                }
                 return $rows;
             }
             foreach ($rows as $row) {
@@ -123,7 +132,6 @@ class ActiveQuery extends Query
                     $model->afterFind();
                 }
             }
-
             return $models;
         } else {
             return [];
