@@ -55,12 +55,10 @@ class ActiveQuery extends Query implements ActiveQueryInterface
             array_walk(
                 $rows,
                 function (&$doc) {
-
-                    if(isset($doc['_id'])) { unset($doc['_id']); }
-                    if(isset($doc['_rev'])) { unset($doc['_rev']); }
-
                     if ($doc instanceof Document) {
                         $doc = $doc->getAll();
+                    } else {
+                        unset($doc['_id'], $doc['_rev']);
                     }
                 }
             );
