@@ -121,6 +121,10 @@ class ActiveQuery extends Query implements ActiveQueryInterface
 
     public function all($db = null)
     {
+        if(!$db) {
+            $db = $this->modelClass::getDb();
+        }
+
         $statement = $this->createCommand($db);
         $token = $this->getRawAql($statement);
         Yii::info($token, 'devgroup\arangodb\Query::query');
@@ -151,6 +155,10 @@ class ActiveQuery extends Query implements ActiveQueryInterface
 
     public function one($db = null)
     {
+        if(!$db) {
+            $db = $this->modelClass::getDb();
+        }
+
         $row = parent::one($db);
         if ($row !== false) {
             if ($this->asArray) {
