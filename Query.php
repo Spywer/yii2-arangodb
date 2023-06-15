@@ -412,38 +412,11 @@ class Query extends \yii\db\Query
     protected function buildCompositeInCondition($operator, $column, $values, &$params)
     {
         $vss = [];
-        $temp_params = [];
 
         foreach ($values as $key => $value) {
-
-            $vs = [];
-
-            if (str_starts_with($value, ':')) {
-
-                if (isset($params[$value])) {
-                    $phName = self::PARAM_PREFIX.'_'.$column.$key;
-                    $params[$phName] = $params[$value];
-                    $vs[] = '@'.$phName;
-                } else {
-                    $vs[] = 'null';
-                }
-
-                $temp_params[] = $value;
-
-            } else {
-
-                $phName = self::PARAM_PREFIX.'_'.$column.$key;
-                $params[$phName] = $value;
-                $vs[] = '@'.$phName;
-            }
-
-            $vss[] = implode(', ', $vs);
-        }
-
-        if($temp_params) {
-            foreach ($temp_params as $tp) {
-                unset($params[$tp]);
-            }
+            $phName = self::PARAM_PREFIX. count($params);
+            $params[$phName] = $value;
+            $vss[] = '@'.$phName;
         }
 
         if (strpos($column, '(') === false) {
