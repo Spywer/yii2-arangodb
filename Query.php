@@ -371,7 +371,7 @@ class Query extends \yii\db\Query
 
         $values = (array) $values;
 
-        if (count($column) > 1) {
+        if (count($values) > 1) {
             return $this->buildCompositeInCondition($operator, $column, $values, $params);
         }
 
