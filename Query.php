@@ -409,29 +409,48 @@ class Query extends \yii\db\Query
      * @param $params
      * @return string
      */
-    protected function buildCompositeInCondition($operator, $columns, $values, &$params)
+    protected function buildCompositeInCondition($operator, $column, $values, &$params)
     {
         $vss = [];
-        foreach ($values as $value) {
+        $temp_params = [];
+
+        foreach ($values as $key => $value) {
+
             $vs = [];
-            foreach ($columns as $column) {
-                if (isset($value[$column])) {
-                    $phName = self::PARAM_PREFIX . count($params);
-                    $params[$phName] = $value[$column];
-                    $vs[] = "@$phName";
+
+            if (str_starts_with($value, ':')) {
+
+                if (isset($params[$value])) {
+                    $phName = self::PARAM_PREFIX.'_'.$column.$key;
+                    $params[$phName] = $params[$value];
+                    $vs[] = '@'.$phName;
                 } else {
                     $vs[] = 'null';
                 }
+
+                $temp_params[] = $value;
+
+            } else {
+
+                $phName = self::PARAM_PREFIX.'_'.$column.$key;
+                $params[$phName] = $value;
+                $vs[] = '@'.$phName;
             }
-            $vss[] = '(' . implode(', ', $vs) . ')';
+
+            $vss[] = implode(', ', $vs);
         }
-        foreach ($columns as $i => $column) {
-            if (strpos($column, '(') === false) {
-                $columns[$i] = $this->quoteColumnName($column);
+
+        if($temp_params) {
+            foreach ($temp_params as $tp) {
+                unset($params[$tp]);
             }
         }
 
-        return '(' . implode(', ', $columns) . ") {$this->conditionMap[$operator]} [" . implode(', ', $vss) . ']';
+        if (strpos($column, '(') === false) {
+            $column = $this->quoteColumnName($column);
+        }
+
+        return $column . " {$this->conditionMap[$operator]} [" . implode(', ', $vss) . ']';
     }
 
     /**
