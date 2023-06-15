@@ -57,8 +57,6 @@ class ActiveQuery extends Query implements ActiveQueryInterface
                 function (&$doc) {
                     if ($doc instanceof Document) {
                         $doc = $doc->getAll();
-                    } else {
-                        unset($doc['_id'], $doc['_rev']);
                     }
                 }
             );
