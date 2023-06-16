@@ -680,10 +680,6 @@ class Query extends \yii\db\Query
      */
     public function insert($collection, $columns, $params = [], $db = null)
     {
-        if(!$db) {
-            $db = $this->modelClass::getDb();
-        }
-
         $doc = Serializer::encode($columns);
 
         $clauses = [
@@ -725,10 +721,6 @@ class Query extends \yii\db\Query
      */
     public function update($collection, $columns, $condition = [], $params = [], $db = null)
     {
-        if(!$db) {
-            $db = $this->modelClass::getDb();
-        }
-
         $this->from($collection);
         $clauses = [
             $this->buildFrom($collection),
@@ -774,10 +766,6 @@ class Query extends \yii\db\Query
      */
     public function remove($collection, $condition = [], $params = [], $db = null)
     {
-        if(!$db) {
-            $db = $this->modelClass::getDb();
-        }
-
         $this->from($collection);
         $clauses = [
             $this->buildFrom($collection),
@@ -887,10 +875,6 @@ class Query extends \yii\db\Query
      */
     public function count($q = '*', $db = null)
     {
-        if(!$db) {
-            $db = $this->modelClass::getDb();
-        }
-
         $this->select = '1';
         $this->limit(1);
         $this->offset(0);
@@ -918,10 +902,6 @@ class Query extends \yii\db\Query
      */
     public function exists($db = null)
     {
-        if(!$db) {
-            $db = $this->modelClass::getDb();
-        }
-
         $record = $this->one($db);
         return !empty($record);
     }
