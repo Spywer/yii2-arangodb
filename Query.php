@@ -409,21 +409,45 @@ class Query extends \yii\db\Query
      * @param $params
      * @return string
      */
-    protected function buildCompositeInCondition($operator, $column, $values, &$params)
+    protected function buildCompositeInCondition($operator, $columns, $values, &$params)
     {
         $vss = [];
 
-        foreach ($values as $key => $value) {
-            $phName = self::PARAM_PREFIX. count($params);
-            $params[$phName] = $value;
-            $vss[] = '@'.$phName;
+        if(is_string($columns)) {
+
+            foreach ($values as $key => $value) {
+                $phName = self::PARAM_PREFIX. count($params);
+                $params[$phName] = $value;
+                $vss[] = '@'.$phName;
+            }
+
+            if (strpos($columns, '(') === false) {
+                $columns = $this->quoteColumnName($columns);
+            }
+
+            return $columns." {$this->conditionMap[$operator]} [".implode(', ', $vss).']';
         }
 
-        if (strpos($column, '(') === false) {
-            $column = $this->quoteColumnName($column);
+        foreach ($values as $value) {
+            $vs = [];
+            foreach ($columns as $column) {
+                if (isset($value[$column])) {
+                    $phName = self::PARAM_PREFIX.count($params);
+                    $params[$phName] = $value[$column];
+                    $vs[] = "@$phName";
+                } else {
+                    $vs[] = 'null';
+                }
+            }
+            $vss[] = '('.implode(', ', $vs).')';
+        }
+        foreach ($columns as $i => $column) {
+            if (strpos($column, '(') === false) {
+                $columns[$i] = $this->quoteColumnName($column);
+            }
         }
 
-        return $column . " {$this->conditionMap[$operator]} [" . implode(', ', $vss) . ']';
+        return '('.implode(', ', $columns).") {$this->conditionMap[$operator]} [".implode(', ', $vss).']';
     }
 
     /**
