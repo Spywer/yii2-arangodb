@@ -435,6 +435,10 @@ class Query extends \yii\db\Query
                     $phName = self::PARAM_PREFIX.count($params);
                     $params[$phName] = $value[$column];
                     $vs[] = "@$phName";
+                } else if(!is_array($value)) {
+                    $phName = self::PARAM_PREFIX.count($params);
+                    $params[$phName] = $value;
+                    $vs[] = "@$phName";
                 } else {
                     $vs[] = 'null';
                 }
