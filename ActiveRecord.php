@@ -287,9 +287,9 @@ class ActiveRecord extends BaseActiveRecord
      * @param array $options
      * @return integer the number of rows updated
      */
-    public static function updateAll($attributes, $condition = [], $options = [])
+    public static function updateAll($attributes, $condition = [], $options = [], $db = null)
     {
-        return (new Query())->options($options)->update(static::collectionName(), $attributes, $condition);
+        return (new Query())->options($options)->update(static::collectionName(), $attributes, $condition, [], $db);
     }
 
     /**
@@ -308,9 +308,9 @@ class ActiveRecord extends BaseActiveRecord
      * @param array $options
      * @return integer the number of rows deleted
      */
-    public static function deleteAll($condition = [], $options = [])
+    public static function deleteAll($condition = [], $options = [], $db = null)
     {
-        return (new Query())->options($options)->remove(static::collectionName(), $condition);
+        return (new Query())->options($options)->remove(static::collectionName(), $condition, [], $db);
     }
 
     public static function truncate()

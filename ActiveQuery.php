@@ -181,33 +181,6 @@ class ActiveQuery extends Query implements ActiveQueryInterface
         }
     }
 
-    public function insert($collection, $columns, $params = [], $db = null)
-    {
-        if(!$db) {
-            $db = $this->modelClass::getDb();
-        }
-
-        return parent::insert($collection, $columns, $params, $db);
-    }
-
-    public function update($collection, $columns, $condition = [], $params = [], $db = null)
-    {
-        if(!$db) {
-            $db = $this->modelClass::getDb();
-        }
-
-        return parent::update($collection, $columns, $condition, $params, $db);
-    }
-
-    public function remove($collection, $condition = [], $params = [], $db = null)
-    {
-        if(!$db) {
-            $db = $this->modelClass::getDb();
-        }
-
-        return parent::remove($collection, $condition, $params, $db);
-    }
-
     public function count($q = '*', $db = null)
     {
         if(!$db) {
