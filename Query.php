@@ -23,6 +23,14 @@ class Query extends \yii\db\Query
         'IN' => 'buildInCondition',
         'LIKE' => 'buildLikeCondition',
         'BETWEEN' => 'buildBetweenCondition',
+        '==' => 'buildLogicalCondition',
+        '!=' => 'buildLogicalCondition',
+        '<' => 'buildLogicalCondition',
+        '<=' => 'buildLogicalCondition',
+        '>' => 'buildLogicalCondition',
+        '>=' => 'buildLogicalCondition',
+        '=~' => 'buildLogicalCondition',
+        '!~' => 'buildLogicalCondition'
     ];
 
     protected $conditionMap = [
@@ -31,6 +39,14 @@ class Query extends \yii\db\Query
         'OR' => '||',
         'IN' => 'in',
         'LIKE' => 'LIKE',
+        '==' => '==',
+        '!=' => '!=',
+        '<' => '<',
+        '<=' => '<=',
+        '>' => '>',
+        '>=' => '>=',
+        '=~' => '=~',
+        '!~' => '!~'
     ];
 
     public $select = [];
@@ -253,6 +269,30 @@ class Query extends \yii\db\Query
         } else { // hash format: 'column1' => 'value1', 'column2' => 'value2', ...
             return $this->buildHashCondition($condition, $params);
         }
+    }
+
+    /**
+     * @param $operator
+     * @param $operands
+     * @param $params
+     * @return string
+     */
+    protected function buildLogicalCondition($operator, $operands, &$params)
+    {
+        $operand = reset($operands);
+
+        if (strpos($operand, '(') === false) {
+            $operand = $this->quoteColumnName($operand);
+        }
+
+        if ($operand === '') {
+            return '';
+        }
+
+        $phName = self::PARAM_PREFIX . count($params);
+        $params[$phName] = $operands[1];
+
+        return "$operand {$this->conditionMap[$operator]} @$phName";
     }
 
     /**
